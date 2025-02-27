@@ -3,7 +3,7 @@ library(kohonen)
 library(mclust)
 library(cluster)
 ukb_cluster_encoded <- readRDS('/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/ukb_cluster_encoded.rds')
-som.model <- readRDS('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Dimensionality_Reduction/som/outputs/som_model')
+som.model <- readRDS('/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/Clustering/som/som_model')
 
 # Inspect the SOM model's diagnostic plots =====================================
 plot(som.model, type="counts", shape="straight")

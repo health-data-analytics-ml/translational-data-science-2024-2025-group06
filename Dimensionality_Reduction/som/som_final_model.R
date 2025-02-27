@@ -13,4 +13,4 @@ som.model <- som(data.sc,
                  grid=somgrid(xdim=12, ydim=12, topo="hexagonal"), 
                  rlen=50000, alpha=c(0.05,0.01), keep.data =T)
 
-saveRDS(som.model, '/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Dimensionality_Reduction/som/outputs/som_model_12')
+saveRDS(som.model, '/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/Clustering/som/som_model_12')

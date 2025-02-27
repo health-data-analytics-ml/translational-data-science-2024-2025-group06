@@ -34,7 +34,7 @@ som12x12 <- som(data.sc, grid=somgrid(xdim=12, ydim=12, topo="hexagonal"))
 
 # Save each SOM model
 ## Define the output directory
-output_dir <- "/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Dimensionality_Reduction/som/outputs/"
+output_dir <- "/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/Clustering/som/"
 
 ## Ensure the directory exists
 dir.create(output_dir, recursive = TRUE, showWarnings = FALSE)
