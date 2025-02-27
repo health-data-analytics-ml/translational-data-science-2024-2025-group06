@@ -14,7 +14,8 @@ for (i in 4:20) {
   gmm_model <- Mclust(ukb_cluster_encoded, G=i)
   bic_scores[as.character(i)] <- gmm_model$BIC
 }
-saveRDS(bic_scores, '/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Clustering/Gaussian_Mixture_Model/bic_scores.rds')
+save(bic_scores, file='/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Clustering/Gaussian_Mixture_Model/bic_scores.RData')
+# load('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Clustering/Gaussian_Mixture_Model/bic_scores.RData')
 bic_scores
 ## Unfortunately BIC decreases with increasing number of clusters, chose 10
 

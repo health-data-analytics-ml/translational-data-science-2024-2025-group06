@@ -19,7 +19,6 @@ View(toy)
 #inspecting a histogram of MAD values distribution)
 ### data.f <- data[!c(row.names(data) %in% names(which(mad.genes<0.15))),] 
 
-
 ## Scale & center
 
 #This is done to give the variables (genes) equal importance regardless of their

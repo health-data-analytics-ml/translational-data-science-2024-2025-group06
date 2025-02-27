@@ -11,6 +11,6 @@ data.sc <- as.matrix(ukb_cluster_encoded)
 set.seed(0710001)
 som.model <- som(data.sc, 
                  grid=somgrid(xdim=12, ydim=12, topo="hexagonal"), 
-                 rlen=50000, alpha=c(0.05,0.01), keep.data =T)
+                 rlen=1000, alpha=c(0.05,0.01), keep.data =T)
 
-saveRDS(som.model, '/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/Clustering/som/som_model_12')
+saveRDS(som.model, '/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/Clustering/som/som_model_12.rds')
