@@ -1,0 +1,13 @@
+
+If the anaconda3/personal module is the only one you're using in your jobscripts, then you should consider moving to our newer cluster - CX3 Phase 2.
+It provides a number of improvements as well as new GPU's (NVIDIA L40S's). It runs off of the RDS, meaning all your work will remain as is.
+All you need to do is log in to the new cluster:
+https://icl-rcs-user-guide.readthedocs.io/en/latest/hpc/pilot/cx3-phase2/
+https://icl-rcs-user-guide.readthedocs.io/en/latest/hpc/pilot/cx3-phase2/#python-and-conda-environments
+
+As always, if you have any questions, please raise a ticket with us here:
+https://www.imperial.ac.uk/admin-services/ict/self-service/research-support/rcs/get-support/contact-us/
+
+Warning message:
+package ‘lubridate’ was built under R version 4.4.2 
+=>> PBS: job killed: walltime 86512 exceeded limit 86400
