@@ -44,7 +44,7 @@ manh_df <- data.frame(Variable = rep(colnames(m_log), 10),
                       Cluster = rep(1:10, each = 44),
                       pval = as.vector(t(m_log)))
 
-manh_df %>% filter(Cluster == 10) %>% ggplot(aes(x = Subgroup, y = pval, label = Variable)) + 
+manh_df %>% filter(Cluster == 3) %>% ggplot(aes(x = Subgroup, y = pval, label = Variable)) + 
   geom_jitter(width = 0.2, height = 0) +
   geom_abline(intercept = 1.301, slope = 0, colour = 'green') +
   geom_text(aes(label=ifelse(pval > 1.301, as.character(Variable),'')), 
