@@ -7,4 +7,4 @@ cd /rds/general/user/hc724/projects/hda_24-25/live/TDS/Group06/Scripts/Analysis/
 module load anaconda3/personal
 source activate r413
 
-Rscript proteins_stability_lasso_job.R
+Rscript proteins_logistic.R

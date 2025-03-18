@@ -1,10 +1,11 @@
-# Runs univariate analysis on proteins and generates tables to use in analysis_plots
+# Runs univariate analysis on proteins and generates tables to use in proteins_univariate_visualisations.R
 rm(list = ls())
+
 # Univariate analysis ==========================================================
 # 100% of data used
 ukb_proteins_univariate <- readRDS("/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/Analysis/ukb_proteins_univariate.rds")
 
-## Function for logistic regression, grab p-value
+# Function for logistic regression, grab p-value
 protein_indices <- 4:1346
 logistic <- function(protein_col, cluster) {
   formula <- as.formula(paste(cluster, '~', names(ukb_proteins_univariate)[protein_col], '+ age + sex + ethnic_background'))
