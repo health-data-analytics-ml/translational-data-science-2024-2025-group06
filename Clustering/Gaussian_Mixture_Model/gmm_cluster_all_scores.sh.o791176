@@ -1,0 +1,15 @@
+  Clusters BIC_Score
+1        4  -3482157
+2        5  -3438888
+3        6  -3392594
+4        7  -3365489
+5        8  -3319852
+6        9  -3326501
+  Clusters Silhouette_Score
+1        4       0.06680292
+2        5       0.05358525
+3        6       0.06955351
+4        7       0.06839687
+5        8       0.06742838
+6        9       0.04447569
+[1] "Final GMM Model with 10 Clusters saved successfully!"

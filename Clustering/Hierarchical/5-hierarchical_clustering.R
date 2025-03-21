@@ -9,7 +9,7 @@ set.seed(13874)
 
 ## Set-up ===========
 ukb_cluster <- readRDS('/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/ukb_cluster_scaled.rds')
-#ukb_cluster <- ukb_cluster[1:15000,]
+ukb_cluster <- ukb_cluster[1:25000,]
 
 ## Agglomerative cluster ==========
 gower.dist = daisy(ukb_cluster, metric = "gower")
@@ -56,7 +56,7 @@ cstats.table <- function(dist, tree, k) {
   output
 }
 
-data_aggl = data.frame(t(cstats.table(gower.dist, aggl.clust.c, 10)))
+data_aggl = data.frame(t(cstats.table(gower.dist, aggl.clust.c, 8)))
 # data_divi = data.frame(t(cstats.table(gower.dist, divisive.clust, 10)))
 
 

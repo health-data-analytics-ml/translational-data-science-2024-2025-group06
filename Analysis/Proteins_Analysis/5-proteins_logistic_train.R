@@ -45,6 +45,7 @@ for (i in 1:7){
   logistic_variables[i,1] <- c1_vars
 }
 logistic_variables <- as.data.frame(logistic_variables)
+logistic_variables$Variables <- paste(logistic_variables$Variables, '+ age + sex + ethnic_background')
 
 # Logistic regression ==========================================================
 ## Split data
