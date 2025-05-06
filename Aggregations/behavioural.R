@@ -1,11 +1,17 @@
+# ------------------------------------------------------------------------------
+# Purpose: This script outlines the cleaning and recoding only for behavioural
+# variables in the UK Biobank
+# ------------------------------------------------------------------------------
+
+# Data =========================================================================
+rm(list = ls())
+data_recoded <- readRDS("/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/ukb_recoded.rds")
+data_con <- readRDS("/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/ukb_extracted.rds")
+
 ## Sleep score =================================================================
 # hrs_sleep: 888 (original NA) + 3326 NAs created from {-1,-3}
 # nap : 892 NA
 # insomnia: 892 NA
-
-# Using relevant columns from ukb_recoded and ukb_extracted
-data_recoded <- readRDS("/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/ukb_recoded.rds")
-data_con <- readRDS("/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/ukb_extracted.rds")
 
 # Extract columns and change values to be 0 or 1 
 # nap:  never/rarely(1) = 1
@@ -21,11 +27,7 @@ data_con <- readRDS("/rds/general/project/hda_24-25/live/TDS/Group06/extraction_
 sleep_data <- data.frame(data_recoded$nap.0.0, data_recoded$insomnia.0.0, data_con$hrs_sleep.0.0)
 colnames(sleep_data) <- c("nap.0.0", "insomnia.0.0", "hrs_sleep.0.0")
 
-#sleep_data$nap.0.0[sleep_data$nap.0.0 == "Prefer not to answer"] <- NA
-#sleep_data$insomnia.0.0[sleep_data$insomnia.0.0 == "Prefer not to answer"] <- NA
-
 sleep_data[sleep_data == "Prefer not to answer"] <- NA
-
 sleep_data$hrs_sleep.0.0[sleep_data$hrs_sleep.0.0 == -3] <- NA
 sleep_data$hrs_sleep.0.0[sleep_data$hrs_sleep.0.0 == -1] <- NA
 sleep_data$hrs_sleep.0.0 <- as.numeric(sleep_data$hrs_sleep.0.0)
@@ -55,12 +57,5 @@ ukb_recoded1 <- ukb_recoded1 %>% mutate(alcohol_10_yrs.0.0 = ifelse((alcohol_int
 # Alcohol status ===============================================================
 ukb_recoded1$alcohol_intake.0.0[ukb_recoded1$alcohol_intake.0.0 == "Prefer not to answer"] <- NA
 ukb_recoded1$alcohol_intake.0.0 <- droplevels(ukb_recoded1$alcohol_intake.0.0)
-
-# 351358 NA values
-# Status can be Current, Previous, Never, NA
-# smoking <- data.frame(ukb_recoded$smoking_status.0.0, ukb_recoded$pack_years.0.0)
-# colnames(smoking) <- c("smoking_status.0.0", "pack_years.0.0")
-# # If Never smoker, the NA is changed to 0
-# smoking <- smoking %>% mutate(pack_years.0.0 = ifelse((smoking_status.0.0 == "Never"), 0, pack_years.0.0))
 
 

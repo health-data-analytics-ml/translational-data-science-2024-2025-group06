@@ -18,9 +18,8 @@ bic_plot <- ggplot(bic_table, aes(x = Clusters, y = BIC_Score)) +
        y = "BIC Score") +
   theme_minimal() +
   theme(plot.title = element_text(hjust = 0.5))
-
 bic_plot
-ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Clustering/Gaussian_Mixture_Model/bic_plot.png', 
+ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/Cluster_Scoring/bic.png', 
        plot = bic_plot, width = 8, height = 6, dpi = 300)
 
 silhouette_df <- data.frame(Clusters = k_range, Silhouette_Score = silhouette_scores)
@@ -36,5 +35,5 @@ silhouette_plot <- ggplot(silhouette_df, aes(x = Clusters, y = Silhouette_Score)
 
 silhouette_plot
 
-ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Clustering/Gaussian_Mixture_Model/silhouette_plot.png', 
+ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/Cluster_Scoring/silhouette.png', 
        plot = silhouette_plot, width = 8, height = 6, dpi = 300)

@@ -1,4 +1,4 @@
-# Load libraries, read in data =================================================
+# Load libraries, data =========================================================
 rm(list = ls())
 library(ggplot2)
 library(MASS)
@@ -10,6 +10,20 @@ ukb_cluster_encoded$cluster <- cluster_assignments
 # selected_colors <- c("#999999", "#9370DB", "#4DAF4A", "#F781BF", "#FFFF33", "#377EB8", "#A65628") #"#FF7F00", "#984EA3")
 selected_colors <- c("#9370DBE6", "#B3B3B3CC", "#4DAF4AE6", "#F781BFCC", "#FFFF33", "#377EB8D9", "#A65628E6")
 ## Added hex codes at the end to make the colors more muted (CC: 80% opacity)
+
+# Plot of number of people in each cluster =====================================
+p <- ggplot(ukb_cluster_encoded, aes(x= factor(cluster), fill = factor(cluster))) +
+  geom_bar() +
+  geom_text(stat = 'count', aes(label = ..count..), vjust = -0.5) +
+  scale_fill_manual(values = selected_colors) +
+  theme_minimal() +
+  theme(legend.position = '2none',
+        plot.title = element_text(hjust = 0.5, size = 25)) +
+  labs(title = 'Cluster Membership Counts',
+       x = 'Cluster',
+       y = 'Count')
+p
+ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/Cluster_Descriptions/num_in_cluster.png', plot = p, width = 8, height = 8, dpi = 300)
 
 # UMAP Plot ====================================================================
 ## Read in UMAP results
@@ -31,7 +45,7 @@ p <- ggplot(umap_df, aes(x = UMAP1, y = UMAP2, color = cluster)) +
 p
 
 ## Save plot as PNG
-ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/gmm_umap_scatterplot.png', plot = p, width = 8, height = 6, dpi = 300)
+ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/Dimensionality_Reduction_Projections/gmm_umap_scatterplot.png', plot = p, width = 8, height = 6, dpi = 300)
 
 
 # PC Plot ======================================================================
@@ -42,7 +56,7 @@ pca_scores$cluster <- cluster_assignments
 
 ## Scree plot and save as png
 dev.off()
-png('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gauassian_Mixture_Model/pca_scree.png', width = 800, height = 600)
+png('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gauassian_Mixture_Model/Dimensionality_Reduction_Projections/pca_scree.png', width = 800, height = 600)
 ev = with(pca_result, sdev^2/sum(sdev^2))
 plot(ev, pch = 19, col = "navy", xlab = "# of PCs",
      ylab = "Proportion of EV", ylim = c(0, 1.2), cex = 0.3,
@@ -67,12 +81,12 @@ p <- ggplot(pca_scores, aes(x = PC1, y = PC2, color = cluster)) +
        y = paste0("PC2 (", pc2_var, "%)"),
        color = "Cluster") +
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 25)) +
   guides(color = guide_legend(override.aes = list(size = 4)))
 p
 
 ## Save plot as PNG
-ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/gmm_pca_scatterplot.png', plot = p, width = 8, height = 6, dpi = 300)
+ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/Dimensionality_Reduction_Projections/gmm_pca_scatterplot.png', plot = p, width = 8, height = 6, dpi = 300)
 
 # t-SNE Plot ===================================================================
 ## Read in t-SNE results
@@ -88,12 +102,12 @@ p <- ggplot(tsne_df, aes(x = X, y = Y, color = cluster)) +
   scale_color_manual(values = selected_colors) +
   labs(title = "t-SNE Visualisation of GMM Clusters", x = "t-SNE 1", y = "t-SNE 2") +
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5)) +
+  theme(plot.title = element_text(hjust = 0.5, size = 25)) +
   guides(color = guide_legend(override.aes = list(size = 4)))
 p
 
 ## Save plot as PNG
-ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/gmm_tsne_scatterplot.png', plot = p, width = 8, height = 6, dpi = 300)
+ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/Dimensionality_Reduction_Projections/gmm_tsne_scatterplot.png', plot = p, width = 8, height = 6, dpi = 300)
 
 
 # Density map PCA ==============================================================
@@ -139,7 +153,7 @@ p <- ggplot(density_df, aes(x = x, y = y, z = z, color = cluster)) +
 p
  
 ## Save plot as PNG
-ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/gmm_pca_contour.png', plot = p, width = 8, height = 6, dpi = 300)
+ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/Dimensionality_Reduction_Projections/gmm_pca_contour.png', plot = p, width = 8, height = 6, dpi = 300)
 
 
 # Density map PCA with scatterplot =============================================
@@ -166,7 +180,7 @@ p <- ggplot() +
 p
 
 ## Save plot as PNG
-ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/gmm_pca_contour_scatterplot.png', plot = p, width = 8, height = 6, dpi = 300)
+ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/Dimensionality_Reduction_Projections/gmm_pca_contour_scatterplot.png', plot = p, width = 8, height = 6, dpi = 300)
 
 
 # Density map UMAP (all clusters) ==============================================
@@ -204,7 +218,7 @@ p <- ggplot() +
 p
 
 ## Save plot as PNG
-ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/gmm_umap_contour.png', plot = p, width = 8, height = 6, dpi = 300)
+ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/Dimensionality_Reduction_Projections/gmm_umap_contour.png', plot = p, width = 8, height = 6, dpi = 300)
 
 
 # Density map and scatterplot UMAP (all clusters) ==============================
@@ -213,15 +227,15 @@ p <- ggplot() +
              size = .4, alpha = 0.35, shape = 16) +
   geom_contour(data = density_df, aes(x = x, y = y, z = z, color = cluster), 
                bins = 50, size = 0.5) +  
-  labs(title = "Cluster Density Contours and Scatterplot (UMAP)", 
+  labs(title = "UMAP Visualisation of GMM Clusters", 
        x = "UMAP1", y = "UMAP2", color = "Cluster") +
   scale_color_manual(values = selected_colors) +  
   theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5, size = 25))
 p
 
 ## Save plot as PNG
-ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/gmm_umap_contour_scatterplot.png', plot = p, width = 8, height = 6, dpi = 300)
+ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/Dimensionality_Reduction_Projections/gmm_umap_contour_scatterplot.png', plot = p, width = 8, height = 6, dpi = 300)
 
 
 # TESTING PCA BEFORE GMM =========================================================
@@ -244,4 +258,6 @@ selected_pcs <- pca_result$x[, 1:num_pcs]
 gmm_model <- Mclust(selected_pcs)
 cluster_assignments <- gmm_model$classification
 ## UMAP and PC graphs are worse than without running PCA before
+
+
 

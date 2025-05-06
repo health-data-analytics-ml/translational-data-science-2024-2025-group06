@@ -52,27 +52,21 @@ for (i in 1:7){
 
 # ROC Plot for all clusters, format like univariate plots ======================
 colors <- c("#999999", "#984EA3", "#4DAF4A", "#E41A1C", "#FFFF33", "#377EB8", "#A65628", "#F781BF")
+
+
+# 3) Plot with ggplot2
 roc_curves <- ggplot(roc_data, aes(x = FPR, y = TPR, color = Cluster_AUC, group = Cluster)) +
-  geom_line(size = 0.6) +
+  geom_line(linewidth = 1) +
   scale_color_manual(values = colors) +
-  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "gray") +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "grey60") +
   theme_minimal() +
-  theme(
-    legend.position = 'bottom',
-    plot.title = element_text(hjust = 0.5),
-    panel.border = element_blank(),
-    panel.grid.major.x = element_line(colour = 'grey95'),
-    panel.grid.major.y = element_line(colour = 'grey95'),
-    panel.grid.minor.y = element_line(colour = 'grey95'),
-    panel.background = element_rect(fill = 'grey99'),
-    plot.background = element_rect(fill = 'grey99')) +
   labs(
-    title = "ROC Curves (Proteins)",
+    title = "ROC Curves: Proteins",
     x = "False Positive Rate (FPR)",
     y = "True Positive Rate (TPR)",
     color = 'Cluster') +
-  # theme(legend.position = 'right')
   theme(
+    plot.title = element_text(hjust = 0.5, size = 25),
     legend.position = c(.98, .3),
     legend.justification = c("right", "top"),
     legend.box.just = "right",

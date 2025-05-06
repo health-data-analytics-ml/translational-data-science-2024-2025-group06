@@ -39,18 +39,18 @@ for(i in 1:7){
     xdata = as.matrix(x)[select,], 
     ydata = as.matrix(y)[select],
     verbose = FALSE,
-    # first three predictors kept (age, sex, ethnicity)
-    # the rest of the columns (proteins) are penalised
+    # First three predictors kept (age, sex, ethnicity)
+    # The rest of the columns (proteins) are penalised
     penalty.factor = c(0, 0, 0, rep(1, ncol(proteins))),
     family = "binomial",
     n_cat = 3
   )
-  path <- '/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/pls_out_'
+  path <- '/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/out_C'
   path <- paste(path, i, '.rds', sep = "")
   saveRDS(out, path)
   
   # Save the calibration plot for each
-  plot_name <- '/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Protein_Analysis_Visuals/calibration_plots/pls_C'
+  plot_name <- '/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Protein_Analysis_Visuals/calibration_plots/C'
   plot_name <- paste(plot_name, i, '_calibration.png', sep="")
   png(plot_name, width = 800, height = 600)
   par(mar = c(7,5,6,6))
@@ -62,7 +62,7 @@ for(i in 1:7){
   hat_params <- Argmax(out)
   
   # Save selection proportion plots
-  plot_name <- '/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Protein_Analysis_Visuals/selection_proportion_plots/pls_C'
+  plot_name <- '/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Protein_Analysis_Visuals/selection_proportion_plots/C'
   plot_name <- paste(plot_name, i, '_selection.png', sep="")
   png(plot_name, width = 800, height = 600)
   par(mar = c(10, 5, 1, 1))

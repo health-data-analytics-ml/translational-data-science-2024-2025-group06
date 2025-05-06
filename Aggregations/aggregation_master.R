@@ -1,12 +1,19 @@
-# Read in data
+# ------------------------------------------------------------------------------
+# Purpose: This script prepares a cleaned and recoded UK Biobank dataset by processing
+# all types of variables. This script includes the code from socioeconomic.R, 
+# environmental.R, behavioural.R, and demographics_childhood_psychosocial.R in one
+# aggregated script - do not need to run the other scripts
+# ------------------------------------------------------------------------------
+
+# Data and libraries ===========================================================
 rm(list = ls())
 library(dplyr)
 ukb_recoded <- readRDS('/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/ukb_recoded.rds')
 ukb_extracted <- readRDS('/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/ukb_extracted.rds')
 
-# (a) Sociodemographic Variables ============================
+# (a) Sociodemographic Variables ===============================================
 
-## (i) Index of multiple deprivation =========================
+## (i) Index of multiple deprivation ===========================================
 # Make deciles for multiple deprivation for each region respectively, combine into one column
 ukb_recoded <- mutate(ukb_recoded, multiple_deprivation_e_deciles = ntile(multiple_deprivation_england.0.0, 10))
 ukb_recoded <- mutate(ukb_recoded, multiple_deprivation_s_deciles = ntile(multiple_deprivation_scotland.0.0, 10))
@@ -17,7 +24,7 @@ ukb_recoded <- mutate(ukb_recoded, multiple_deprivation_index = coalesce(multipl
 ukb_recoded <- select(ukb_recoded, -'multiple_deprivation_england.0.0', -'multiple_deprivation_scotland.0.0', -'multiple_deprivation_wales.0.0',
                        -'multiple_deprivation_e_deciles', -'multiple_deprivation_s_deciles', -'multiple_deprivation_w_deciles')
 
-## (ii) Current employment status =============================
+## (ii) Current employment status ==============================================
 # Rename, if 'Prefer not to answer' set to NA
 table(ukb_recoded$employment_status.0.6)
 ukb_recoded <- rename(ukb_recoded, 'employment_status' = 'employment_status.0.0')
@@ -26,7 +33,7 @@ ukb_recoded <- select(ukb_recoded, -'employment_status.0.1', -'employment_status
                        -'employment_status.0.4', -'employment_status.0.5', -'employment_status.0.6')
 ukb_recoded$employment_status <- droplevels(ukb_recoded$employment_status)
 
-## (iii) Qualifications ========================================
+## (iii) Qualifications ========================================================
 # Rename, if 'Prefer not to answer' set to NA
 table(ukb_recoded$qualifications.0.0)
 ukb_recoded <- rename(ukb_recoded, 'qualifications' = 'qualifications.0.0')
@@ -35,7 +42,7 @@ ukb_recoded <- select(ukb_recoded, -'qualifications.0.1', -'qualifications.0.2',
                        -'qualifications.0.3', -'qualifications.0.4', -'qualifications.0.5')
 ukb_recoded$qualifications <- droplevels(ukb_recoded$qualifications)
 
-## (iv) Average household income before tax ===================
+## (iv) Average household income before tax ====================================
 # Rename, if 'Prefer not to answer' or 'Do not know' set to NA
 table(ukb_recoded$household_income.0.0)
 ukb_recoded <- rename(ukb_recoded, 'household_income' = 'household_income.0.0')
@@ -44,7 +51,7 @@ ukb_recoded <- mutate(ukb_recoded, household_income = na_if(ukb_recoded$househol
 ukb_recoded$household_income <- droplevels(ukb_recoded$household_income)
 table(ukb_recoded$household_income)
 
-## (v) Own or rent accommodation lived in =====================
+## (v) Own or rent accommodation lived in ======================================
 # Rename, if 'Prefer not to answer' set to NA
 table(ukb_recoded$own_rent.0.0)
 ukb_recoded <- rename(ukb_recoded, 'own_rent' = 'own_rent.0.0')
@@ -52,7 +59,7 @@ ukb_recoded <- mutate(ukb_recoded, own_rent = na_if(ukb_recoded$own_rent, 'Prefe
 ukb_recoded$own_rent <- droplevels(ukb_recoded$own_rent)
 table(ukb_recoded$own_rent)
 
-## (vi) Gas or solid-fuel cooking/heating =====================
+## (vi) Gas or solid-fuel cooking/heating ======================================
 # Make binary columns gas_cooker, gas_fire, and gas_solid for each type of fuel
 table(ukb_recoded$gas_solid.0.0)
 gas_cooker <- as.numeric(ukb_recoded$gas_solid.0.0 == 'A gas hob or gas cooker')
@@ -84,7 +91,7 @@ ukb_recoded$gas_cooker <- as.factor(ukb_recoded$gas_cooker)
 ukb_recoded$gas_fire <- as.factor(ukb_recoded$gas_fire)
 ukb_recoded$solid_fire <- as.factor(ukb_recoded$solid_fire)
 
-## (vii) Number in household ===================================
+## (vii) Number in household ===================================================
 # Set num_household from ukb_extracted to num_household in ukb_recoded - the recoding set everything to NAs
 # Rename, if 'Prefer not to answer' set to NA
 ukb_recoded$num_household.0.0 <- ukb_extracted$num_household.0.0
@@ -102,7 +109,7 @@ ukb_recoded$num_household <- ifelse(
                 ifelse(ukb_recoded$num_household >= 7, 'Community home', NA))))
 table(ukb_recoded$num_household)
 
-## (viii) Number of vehicles ====================================
+## (viii) Number of vehicles ===================================================
 # Rename, if 'Prefer not to answer' or 'Do not know' set to NA
 table(ukb_recoded$vehicles_household.0.0)
 ukb_recoded <- rename(ukb_recoded, 'vehicles_household' = 'vehicles_household.0.0')
@@ -111,20 +118,20 @@ ukb_recoded <- mutate(ukb_recoded, vehicles_household = na_if(ukb_recoded$vehicl
 ukb_recoded$vehicles_household <- droplevels(ukb_recoded$vehicles_household)
 table(ukb_recoded$vehicles_household)
 
-# (b) Demographic, Childhood, Psychosocial Variables =================
+# (b) Demographic, Childhood, Psychosocial Variables ===========================
 
-## (i) Sex ============================================
+## (i) Sex =====================================================================
 # Rename
 table(ukb_recoded$sex.0.0)
 ukb_recoded <- rename(ukb_recoded, 'sex' = 'sex.0.0')
 
-## (ii) Age ============================================
+## (ii) Age ====================================================================
 # Rename, drop year_of_birth
 summary(ukb_recoded$age.0.0)
 ukb_recoded <- rename(ukb_recoded, 'age' = 'age.0.0')
 ukb_recoded <- select(ukb_recoded, -'year_of_birth.0.0')
 
-## (iii) Ethnic background ==============================
+## (iii) Ethnic background =====================================================
 # Rename, if 'Prefer not to answer' or 'Do not know' set to NA
 table(ukb_recoded$ethnic_background.0.0)
 ukb_recoded <- rename(ukb_recoded, 'ethnic_background' = 'ethnic_background.0.0')
@@ -133,7 +140,7 @@ ukb_recoded <- mutate(ukb_recoded, ethnic_background = na_if(ukb_recoded$ethnic_
 ukb_recoded$ethnic_background <- droplevels(ukb_recoded$ethnic_background)
 table(ukb_recoded$ethnic_background)
 
-## (iv) Breastfed as a baby ============================
+## (iv) Breastfed as a baby ====================================================
 # Rename, if 'Prefer not to answer' or 'Do not know' set to NA
 table(ukb_recoded$breastfed.0.0)
 ukb_recoded <- rename(ukb_recoded, 'breastfed' = 'breastfed.0.0')
@@ -142,7 +149,7 @@ ukb_recoded <- mutate(ukb_recoded, breastfed = na_if(ukb_recoded$breastfed, 'Do 
 ukb_recoded$breastfed <- droplevels(ukb_recoded$breastfed)
 table(ukb_recoded$breastfed)
 
-## (v) Maternal smoking ===============================
+## (v) Maternal smoking ========================================================
 # Rename, if 'Prefer not to answer' or 'Do not know' set to NA
 table(ukb_recoded$maternal_smoking.0.0)
 ukb_recoded <- rename(ukb_recoded, 'maternal_smoking' = 'maternal_smoking.0.0')
@@ -151,10 +158,10 @@ ukb_recoded <- mutate(ukb_recoded, maternal_smoking = na_if(ukb_recoded$maternal
 ukb_recoded$maternal_smoking <- droplevels(ukb_recoded$maternal_smoking)
 table(ukb_recoded$maternal_smoking)
 
-## (vi) Childhood sunburn ==============================
+## (vi) Childhood sunburn ======================================================
 ukb_recoded <- select(ukb_recoded, -'childhood_sunburn.0.0')
 
-## (vii) Able to confide ================================
+## (vii) Able to confide =======================================================
 # Rename, if 'Prefer not to answer' or 'Do not know' set to NA
 table(ukb_recoded$able_to_confide.0.0)
 ukb_recoded <- rename(ukb_recoded, 'able_to_confide' = 'able_to_confide.0.0')
@@ -163,12 +170,12 @@ ukb_recoded <- mutate(ukb_recoded, able_to_confide = na_if(ukb_recoded$able_to_c
 ukb_recoded$able_to_confide <- droplevels(ukb_recoded$able_to_confide)
 table(ukb_recoded$able_to_confide)
 
-## (viii) Neuroticism Score ==============================
+## (viii) Neuroticism Score ====================================================
 # Rename
 summary(ukb_recoded$neuro_score.0.0)
 ukb_recoded <- rename(ukb_recoded, 'neuro_score' = 'neuro_score.0.0')
 
-## (ix) Anxiety =======================================
+## (ix) Anxiety ================================================================
 # Rename, if 'Prefer not to answer' or 'Do not know' set to NA
 summary(ukb_recoded$anxiety.0.0)
 ukb_recoded <- rename(ukb_recoded, 'anxiety' = 'anxiety.0.0')
@@ -177,7 +184,7 @@ ukb_recoded <- mutate(ukb_recoded, anxiety = na_if(ukb_recoded$anxiety, 'Do not 
 ukb_recoded$anxiety <- droplevels(ukb_recoded$anxiety)
 table(ukb_recoded$anxiety)
 
-## (x) Distress score ==============================
+## (x) Distress score ==========================================================
 # Add up any number of responses of distress for each person to create neuroticism score
 ukb_recoded$distress_experience.0.1 <- as.character(ukb_recoded$distress_experience.0.1) 
 ukb_recoded$distress_experience.0.2 <- as.character(ukb_recoded$distress_experience.0.2) 
@@ -211,9 +218,9 @@ ukb_recoded <- ukb_recoded %>% mutate(distress_score = ifelse((distress_score ==
 ukb_recoded$distress_score <- as.factor(ukb_recoded$distress_score)
 table(ukb_recoded$distress_score)
 
-# (c) Behavioural===================================================================
+# (c) Behavioural===============================================================
 
-## (i) Sleep score =================================================================
+## (i) Sleep score =============================================================
 # Using relevant columns from ukb_recoded and ukb_extracted
 data_recoded <- readRDS("/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/ukb_recoded.rds")
 data_con <- readRDS("/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/ukb_extracted.rds")
@@ -252,13 +259,13 @@ ukb_recoded <- ukb_recoded %>% select(-'nap.0.0', -'insomnia.0.0', -'hrs_sleep.0
 rm(data_recoded, data_con, sleep_data)
 
 
-## (ii) Pack years ==================================================================
+## (ii) Pack years =============================================================
 # If Never smoker, the NA is changed to 0
 # nrow(ukb_recoded %>% filter(smoking_status.0.0 == "Never" & !is.na(pack_years.0.0)))
 ukb_recoded <- ukb_recoded %>% mutate(pack_years.0.0 = ifelse((smoking_status.0.0 == "Never"), 0, pack_years.0.0))
 ukb_recoded <- rename(ukb_recoded, 'pack_years' = 'pack_years.0.0')
 
-## (iii) Smoking status ==============================================================
+## (iii) Smoking status ========================================================
 ukb_recoded$smoking_status.0.0[ukb_recoded$smoking_status.0.0 == "Prefer not to answer"] <- NA
 ukb_recoded$smoking_status.0.0 <- droplevels(ukb_recoded$smoking_status.0.0)
 ukb_recoded <- rename(ukb_recoded, 'smoking_status' = 'smoking_status.0.0')
@@ -266,7 +273,7 @@ table(ukb_recoded$smoking_status)
 # nrow(ukb_recoded %>% filter(is.na(smoking_status) & !is.na(pack_years)))
 nrow(ukb_recoded %>% filter(!is.na(smoking_status) & is.na(pack_years)))
 
-## (iv) Alcohol_10_yrs ==============================================================
+## (iv) Alcohol_10_yrs =========================================================
 # If Never drank, the NA is changed to 0
 ukb_recoded <- ukb_recoded %>% mutate(alcohol_10_yrs.0.0 = ifelse((alcohol_intake.0.0 == "Never"), 0, as.character(alcohol_10_yrs.0.0)))
 ukb_recoded <- rename(ukb_recoded, 'alcohol_10_yrs' = 'alcohol_10_yrs.0.0')
@@ -277,43 +284,43 @@ ukb_recoded$alcohol_10_yrs <- as.factor(ukb_recoded$alcohol_10_yrs)
 ukb_recoded$alcohol_10_yrs <- droplevels(ukb_recoded$alcohol_10_yrs)
 table(ukb_recoded$alcohol_10_yrs)
 
-## (v) Alcohol status ==============================================================
+## (v) Alcohol status ==========================================================
 ukb_recoded$alcohol_intake.0.0[ukb_recoded$alcohol_intake.0.0 == "Prefer not to answer"] <- NA
 ukb_recoded$alcohol_intake.0.0 <- droplevels(ukb_recoded$alcohol_intake.0.0)
 ukb_recoded <- rename(ukb_recoded, 'alcohol_intake' = 'alcohol_intake.0.0')
 table(ukb_recoded$alcohol_intake)
 
-# (d) Environmental ===============================================================
+# (d) Environmental ============================================================
 
-## (i) No2_2010 2010 ==============================================================
+## (i) No2_2010 2010 ===========================================================
 summary(ukb_recoded$no2_2010.0.0)
 ukb_recoded <- rename(ukb_recoded, 'no2_2010' = 'no2_2010.0.0')
 
-## (ii) Pm10 2010 ==================================================================
+## (ii) Pm10 2010 ==============================================================
 summary(ukb_recoded$pm10.0.0)
 ukb_recoded <- rename(ukb_recoded, 'pm10' = 'pm10.0.0')
 
-## (iii) Pm2.5.0.0 2010 =============================================================
+## (iii) Pm2.5.0.0 2010 ========================================================
 summary(ukb_recoded$pm2.5.0.0)
 ukb_recoded <- rename(ukb_recoded, 'pm2.5' = 'pm2.5.0.0')
 
-##  (iv) Traffic intensity ==========================================================
+##  (iv) Traffic intensity =====================================================
 summary(ukb_recoded$traffic_intensity.0.0)
 ukb_recoded <- rename(ukb_recoded, 'traffic_intensity' = 'traffic_intensity.0.0')
 
-## (v) Inverse distance to major road =============================================
+## (v) Inverse distance to major road ==========================================
 summary(ukb_recoded$inv_dis_maj_road.0.0)
 ukb_recoded <- rename(ukb_recoded, 'inv_dis_maj_road' = 'inv_dis_maj_road.0.0')
 
-## (vi) Greenspace percentage, buffer 1000m ========================================
+## (vi) Greenspace percentage, buffer 1000m ====================================
 summary(ukb_recoded$greenspace_1000m.0.0)
 ukb_recoded <- rename(ukb_recoded, 'greenspace_1000m' = 'greenspace_1000m.0.0')
 
-## (vii) Water percentage, buffer 1000m =============================================
+## (vii) Water percentage, buffer 1000m ========================================
 summary(ukb_recoded$water_1000m.0.0)
 ukb_recoded <- rename(ukb_recoded, 'water_1000m' = 'water_1000m.0.0')
 
-## (viii) Distance (Euclidean) to coast ==============================================
+## (viii) Distance (Euclidean) to coast ========================================
 summary(ukb_recoded$coast_distance.0.0)
 ukb_recoded <- rename(ukb_recoded, 'coast_distance' = 'coast_distance.0.0')
 
@@ -327,10 +334,10 @@ ukb_recoded <- merge(ukb_recoded, physical_activity['met_score'], by = 'row.name
 row.names(ukb_recoded) <- ukb_recoded$Row.names
 ukb_recoded$Row.names <- NULL
 
-# Save full dataset as a .rds object =========================================
+# Save full dataset as a .rds object ===========================================
 saveRDS(ukb_recoded, '/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/ukb_clean.rds')
 
-# Save complete cases as a .rds object =======================================
+# Save complete cases as a .rds object =========================================
 complete_cases <- na.omit(ukb_recoded)
 saveRDS(complete_cases, '/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/ukb_complete_cases.rds')
 

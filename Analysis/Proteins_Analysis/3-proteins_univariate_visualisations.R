@@ -84,7 +84,8 @@ generate_manhattan_plot <- function(file_path, cluster_num) {
     ylab(expression(-log[10](italic('p')))) + 
     xlab("Protein Index") +
     ylim(0, NA)
-  save_path <- file.path(save_dir, paste0('manhattan_cluster_', cluster_num, '.png'))
+  # save_path <- file.path(save_dir, paste0('manhattan_cluster_', cluster_num, '.png'))
+  save_path <- file.path(save_dir, paste0('C', cluster_num, '_manhattan_cluster_', '.png'))
   ggsave(save_path, plot = man_plot, width = 9, height = 6, dpi = 300)
 }
 

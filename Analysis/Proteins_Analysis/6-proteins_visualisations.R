@@ -56,23 +56,31 @@ rownames(heatmap_matrix) <- heatmap_df$Variable
 heatmap_matrix <- apply(heatmap_matrix, 2, as.numeric)
 colnames(heatmap_matrix) <- gsub('cluster_', 'Cluster ', colnames(heatmap_matrix))
 
+# Flatten the matrix and remove NA values
+odds_ratios <- as.vector(heatmap_matrix)
+odds_ratios <- odds_ratios[!is.na(odds_ratios)]
+
+# Get quantiles to find min and max
+quantile(odds_ratios, probs = c(0, 0.01, 0.05, 0.5, 0.95, 0.99, 1))
+
+# Defining legend
+log_or_matrix <- log(heatmap_matrix)
+breaks <- seq(0, 2.11, length.out = 100)
+
 ## Plot
 save_dir <- '/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Protein_Analysis_Visuals/heatmap.png'
 png(save_dir, width = 1600, height = 1200, res = 300)
+colnames(heatmap_matrix) <- 1:ncol(heatmap_matrix)
 pheatmap(heatmap_matrix,
-         color = colorRampPalette(c('blue', 'grey95', 'red'))(100),
+         color = colorRampPalette(c('blue', 'white', 'brown2'))(100),
+         breaks = breaks,
          scale ='none',
          cluster_rows = FALSE,
          cluster_cols = FALSE,
-         na_col = 'grey80',
-         # display_numbers = TRUE,
-         main = 'Heatmap of Odds Ratio by Cluster')
+         na_col = 'grey60',
+         main = 'Heatmap of Odds Ratio by Cluster',
+         angle_col = 0)
 dev.off()
-
-
-
-
-
 
 
 

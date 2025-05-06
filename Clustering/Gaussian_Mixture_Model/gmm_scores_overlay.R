@@ -28,7 +28,7 @@ sil_max <- max(df$Silhouette_Score, na.rm = TRUE) + 0.01
 scale_factor <- (bic_max - bic_min) / (sil_max - sil_min)
 
 # Plot with improved scaling
-ggplot(df, aes(x = clusters)) +
+p <- ggplot(df, aes(x = clusters)) +
   geom_line(aes(y = BIC_Score, color = "BIC Score"), size = 1) +
   geom_point(aes(y = BIC_Score, color = "BIC Score"), size = 2) +
   geom_line(aes(y = (Silhouette_Score - sil_min) * scale_factor + bic_min, color = "Silhouette Score"), 
@@ -49,5 +49,17 @@ ggplot(df, aes(x = clusters)) +
   theme(
     axis.title.y.left = element_text(color = "blue"),
     axis.title.y.right = element_text(color = "red"),
-    legend.position = "bottom"
+    legend.position = "bottom",
+    plot.title = element_text(hjust = 0.5, size = 30)
   )
+p
+
+ggsave('/rds/general/project/hda_24-25/live/TDS/Group06/Scripts/Visualisations/Gaussian_Mixture_Model/Cluster_Scoring/bic_silhouette.png', plot = p, width = 12, height = 8, dpi = 300)
+
+
+
+
+
+
+
+
