@@ -1,3 +1,7 @@
+# ------------------------------------------------------------------------------
+# Purpose: This script plots participant counts per cluster and creates table 1s
+# ------------------------------------------------------------------------------
+
 # Libraries ====================================================================
 rm(list = ls())
 library(dplyr)
@@ -140,11 +144,7 @@ table1(~ `Alcohol Intake` + `Alcohol 10 Yrs` + `Smoking Status` + `Pack Years` +
 table1(~ `Sex` + `Age` + `Ethnicity` + `Multiple Deprivation Index` + `Household Income` + `Employment Status` +
        `Own Rent` + `Vehicles Household` + `Gas Cooker` + `Solid Fire`
        | as.factor(Cluster), data = ukb_clustered, extra.col=list(`P-value`=pvalue))
+
 table1(~ `No2 2010` + `Pm10` + `Traffic Intensity` + `Distance to Major Road` + `Greenspace 1000m` + `Water 1000m` + 
          `Smoking Status` + `Pack Years` + `Anxiety` + `Neuroticism Score` + `Met Score`
        | as.factor(Cluster), data = ukb_clustered, render.continuous = my.render.cont, extra.col=list(`P-value`=pvalue))
-
-
-
-
-

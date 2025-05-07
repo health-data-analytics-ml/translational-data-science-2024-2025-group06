@@ -1,4 +1,9 @@
-# Libraries and data ===========================================================
+# ------------------------------------------------------------------------------
+# Purpose: This script visualises the missingness per variable per individual, 
+# to help choose missingness thresholds to filter for
+# ------------------------------------------------------------------------------
+
+# Data and libraries ===========================================================
 library(ggplot2)
 library(tidyverse)
 data <- readRDS('/rds/general/project/hda_24-25/live/TDS/Group06/extraction_and_recoding/outputs/ukb_extracted.rds')
@@ -48,10 +53,3 @@ ggplot(missing_df, aes(x = ProportionMissing)) +
        x = "Proportion of Missing Values",
        y = "Count of Columns") +
   theme_minimal()
-
-
-
-
-
-
-

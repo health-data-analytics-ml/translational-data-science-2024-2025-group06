@@ -1,4 +1,9 @@
-# Libraries and data ===========================================================
+# ------------------------------------------------------------------------------
+# Purpose: This script plots distributions of numeric, categorical, and binary
+# exposure variables
+# ------------------------------------------------------------------------------
+
+# Data and libraries ===========================================================
 rm(list = ls())
 library(table1)
 library(tableone)
