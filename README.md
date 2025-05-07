@@ -9,7 +9,7 @@ This project identifies exposure-driven clusters (expotypes) in 41,804 UK Bioban
 
 
 ## Repo Structure
-- /Expoteypes_Presentation.pdf: final presentation for project
+- /Expotypes_Presentation.pdf: final presentation for project
 - /Expotypes_Report.pdf: final report for project
 - /Aggregations: aggregate categorical exposure variables
 - /Missing: deal with missing data
