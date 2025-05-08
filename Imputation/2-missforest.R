@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Purpose: This script attempts imputation on the dataset using MissForest (not 
+# Purpose: This script attempts imputation on the dataset using missForest (not 
 # used as final imputation technique)
 # ------------------------------------------------------------------------------
 
