@@ -1,4 +1,4 @@
-# Expotype Clustering
+# Expotype-Clustering
 ## Overview
 This project identifies exposure-driven clusters (expotypes) in UK Biobank participants, characterises their proteomic signatures, and examines associations with chronic disease risk. Traditional methods of studying diseases and health outcomes do not typically look at the joint effect of exposures and biological mechanisms, overlooking complex interactions. This research can help inform precision public health strategies by identifying high-risk population groups (expotypes) shaped by both lived experiences and biological processes, enabling more targeted prevention, early intervention, and equitable health policy development.
 
