@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------
-# Purpose: This script performs imputation on the dataset using MissRanger (used 
+# Purpose: This script performs imputation on the dataset using missRanger (used 
 # as final imputation technique)
 # ------------------------------------------------------------------------------
 
